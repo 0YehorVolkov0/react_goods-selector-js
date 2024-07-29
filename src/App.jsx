@@ -1,6 +1,7 @@
 import 'bulma/css/bulma.css';
 import './App.scss';
 import { useState } from 'react';
+import classNames from 'classnames';
 
 export const goods = [
   'Dumplings',
@@ -40,41 +41,26 @@ export const App = () => {
       <table className="table">
         <tbody>
           {goods.map(good => {
-            if (good === selectedGood) {
-              return (
-                <tr data-cy="Good" className="has-background-success-light">
-                  <td>
-                    <button
-                      data-cy="RemoveButton"
-                      type="button"
-                      className="button is-info"
-                      onClick={() => {
-                        setSelectedGood(null);
-                      }}
-                    >
-                      -
-                    </button>
-                  </td>
-
-                  <td data-cy="GoodTitle" className="is-vcentered">
-                    {good}
-                  </td>
-                </tr>
-              );
-            }
+            const isGoodSelect = good === selectedGood;
 
             return (
-              <tr data-cy="Good" key={good}>
+              <tr
+                data-cy="Good"
+                key={good}
+                className={classNames(
+                  isGoodSelect && 'has-background-success-light',
+                )}
+              >
                 <td>
                   <button
-                    data-cy="AddButton"
+                    data-cy={isGoodSelect ? 'RemoveButton' : 'AddButton'}
                     type="button"
-                    className="button"
+                    className={classNames('button', isGoodSelect && 'is-info')}
                     onClick={() => {
-                      setSelectedGood(good);
+                      setSelectedGood(isGoodSelect ? null : good);
                     }}
                   >
-                    +
+                    {isGoodSelect ? '-' : '+'}
                   </button>
                 </td>
 
